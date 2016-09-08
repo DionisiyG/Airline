@@ -43,8 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Flight.cs" />
+    <Compile Include="FlightStatusFlightType.cs" />
+    <Compile Include="Gender.cs" />
+    <Compile Include="IFlight.cs" />
+    <Compile Include="Passenger.cs" />
+    <Compile Include="PassengerManager.cs" />
+    <Compile Include="Printer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomPassport.cs" />
+    <Compile Include="RandomProvider.cs" />
+    <Compile Include="Ticket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

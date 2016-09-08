@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Airline
 {
-    class Program
-    {
-        static void Main(string[] args)
+        enum Gender : byte
         {
-            
-        }
-    }
+            Male,
+            Female
+        }    
 }
