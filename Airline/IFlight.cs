@@ -18,6 +18,5 @@ namespace Airline
         decimal EconomTicketPrice { get; }
 
         Passenger[] Passengers { get; set; }
-        decimal EconomyTicketPrice { get; }
     }
 }

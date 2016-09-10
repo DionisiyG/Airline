@@ -14,7 +14,7 @@ namespace Airline
         public string PortCityTitle { get; set; }
         public byte TerminalNumber { get; set; }
         public FlightStatus StatusFlight { get; set; }
-        public decimal BusinesTicketPrice { get; }
+        public decimal BusinessTicketPrice { get; }
         public decimal EconomTicketPrice { get; }
 
         public Passenger[] Passengers { get; set; } = new Passenger[20];
@@ -31,7 +31,7 @@ namespace Airline
 
             businesPrice = rnd.Next(100, 500) + rnd.NextDouble();
             businesPrice = Math.Round(businesPrice, 2);
-            BusinesTicketPrice = (decimal)businesPrice;
+            BusinessTicketPrice = (decimal)businesPrice;
 
         }
 
@@ -45,7 +45,8 @@ namespace Airline
                     count++;
                 }
             }
-            return string.Format("| {0,-12}| {1,-10}| {2,-20}| {3,-25}| {4,-10}| {5,-15}| {6, -10} |", TypeFlight, FlightNumber, FlightDT, PortCityTitle, TerminalNumber, StatusFlight, count);
+            return string.Format("| {0,-12}| {1,-10}| {2,-20}| {3,-25}| {4,-10}| {5,-15}| {6, -10} |", 
+                                    TypeFlight, FlightNumber, FlightDT, PortCityTitle, TerminalNumber, StatusFlight, count);
         }
     }
 }

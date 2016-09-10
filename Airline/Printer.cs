@@ -20,8 +20,10 @@ namespace Airline
             }
             string[] headTable = new string[]
             {
-                string.Format("| {0, -3}| {1,-12}| {2,-10}| {3,-20}| {4,-25}| {5,-10}| {6,-15}| {7, -10} |", "ID", "Flight type", "Flight #", "Date and Time", "City/Port", "Terminal #", "Status", "Passenger"),
-                string.Format("| {0, -3}| {1,-20}| {2,-20}| {3,-20}| {4,-13}| {5,-12}| {6,-10}| {7, -22} |", "ID", "First name", "Last name", "Nationality", "Passport", "Birthday", "Gender", "Ticket")
+                string.Format("| {0, -3}| {1,-12}| {2,-10}| {3,-20}| {4,-25}| {5,-10}| {6,-15}| {7, -10} |", 
+                                    "ID", "Flight type", "Flight #", "Date and Time", "City/Port", "Terminal #", "Status", "Passenger"),
+                string.Format("| {0, -3}| {1,-20}| {2,-20}| {3,-20}| {4,-13}| {5,-12}| {6,-10}| {7, -22} |", 
+                                    "ID", "First name", "Last name", "Nationality", "Passport", "Birthday", "Gender", "Ticket")
             };
             Console.ForegroundColor = ConsoleColor.Green;
             PrintFooter(mode);
@@ -40,7 +42,6 @@ namespace Airline
             {
                 length = 138;
             }
-
             Console.WriteLine(new string('-', length));
         }
 

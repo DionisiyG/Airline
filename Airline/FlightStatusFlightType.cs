@@ -6,24 +6,22 @@ using System.Threading.Tasks;
 
 namespace Airline
 {
-    class FlightStatusFlightType
+    enum FlightStatus : byte
     {
-        enum FlightStatus : byte
-        {
-            CheckIn,
-            GateClosed,
-            Arrived,
-            DepartedAt,
-            Unknown,
-            Canceled,
-            ExpectedAt,
-            Delayed,
-            InFlight
-        }
-        enum FlightType : byte
-        {
-            Arrival,
-            Departure
-        }
+        CheckIn,
+        GateClosed,
+        Arrived,
+        DepartedAt,
+        Unknown,
+        Canceled,
+        ExpectedAt,
+        Delayed,
+        InFlight
     }
+    enum FlightType : byte
+    {
+        Arrival,
+        Departure
+    }
+
 }

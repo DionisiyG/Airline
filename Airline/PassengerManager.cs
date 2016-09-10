@@ -58,7 +58,7 @@ namespace Airline
             };
 
             //Date of birth filling            
-            int yearRnd = rndValue(1935, 2015);
+            int yearRnd = rndValue(1950, 2010);
             int monthRnd = rndValue(1, 13);
             int dayRnd = 0;
 
@@ -211,7 +211,7 @@ namespace Airline
                 //Passenger Gender
                 while (isCheck)
                 {
-                    Console.Write($"{"What is your gender (Male/Female)?",-40}");
+                    Console.Write($"{"What is passenger`s gender (Male/Female)?",-40}");
                     isParse = Gender.TryParse(Console.ReadLine(), true, out passengerGender);
                     if (!isParse)
                     {
@@ -239,7 +239,7 @@ namespace Airline
 
                 if (flightTicket.ClassType == TicketType.Econom)
                 {
-                    flightTicket.Price = flight.EconomyTicketPrice;
+                    flightTicket.Price = flight.EconomTicketPrice;
                 }
                 else
                 {
@@ -481,7 +481,7 @@ namespace Airline
                     flight.Passengers[i].Birthday = birthday;
                     flight.Passengers[i].PassengerGender = passengerGender;
                     flight.Passengers[i].FlightTicket = ticket;
-                    Console.WriteLine("Congratulations! Your data has been modified\saved");
+                    Console.WriteLine("Congratulations! Your data has been modified\\saved");
                 }
             }
         }
@@ -492,7 +492,7 @@ namespace Airline
             {
                 Console.WriteLine("No passengers - noone to delete.");
             }
-            Console.WriteLine("Input ID, to remove passenger element (in table column ID)");
+            Console.WriteLine("Input ID, to remove passenger element (column ID in table )");
             int i = 0;
             bool tryI = int.TryParse(Console.ReadLine(), out i);
             if (!tryI)
