@@ -103,8 +103,6 @@ namespace Airline
 
         public static void AddFlight(IFlight[] flights)
         {
-            Console.Clear();
-
             FlightType typeFlight = new FlightType();
             int flightNumberInput = 0;
             string portCityTitleInput = "";
@@ -125,11 +123,13 @@ namespace Airline
                 //Flight Type input
                 while (isCheck)
                 {
-                    Console.Write($"{"Enter flight type. 1 - Arrival, 2 - Departure",-30}");
+                    Console.WriteLine($"{"Enter flight type. 1 - Arrival, 2 - Departure",-30}");
                     isParse = FlightType.TryParse(Console.ReadLine(), true, out typeFlight);
-                    if ((int)typeFlight >= 3 || !isParse) //need to test
+                    if ((int)typeFlight >= 3 || !isParse || (int)typeFlight == 0)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input! Notice: 1 - Arrival, 2 - Departure");
+                        Console.ResetColor();
                         continue;
                     }
                     break;
@@ -138,21 +138,27 @@ namespace Airline
                 //Flight Number input
                 while (isCheck)
                 {
-                    Console.Write($"{"Enter flight number",-30}"); // input flight number > 0
+                    Console.Write($"{"Enter flight number",-30}");
                     isParse = int.TryParse(Console.ReadLine(), out flightNumberInput);
                     if (!isParse)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input. Try again. Number is only available.");
+                        Console.ResetColor();
                         continue;
                     }
                     else if (isParse && flightNumberInput <= 0)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input, please enter flight number more than 0");
+                        Console.ResetColor();
                         continue;
                     }
                     else if (Searcher.SearchByFlightNumber(flights, flightNumberInput) != null)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("This flight number is already exists. Please enter another flight number.");
+                        Console.ResetColor();
                         continue;
                     }
                     break;
@@ -163,13 +169,15 @@ namespace Airline
                 {
                     Console.Write($"{"Enter port or city name",-30}");
                     portCityTitleInput = Console.ReadLine();
-                    if (Regex.IsMatch(portCityTitleInput, @"[^\d]+$"))
+                    if (Regex.IsMatch(portCityTitleInput, @"[^\d]+$")) //_ detected
                     {
                         break;
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input. Only letters are avaible.");
+                        Console.ResetColor();
                         continue;
                     }
                 }
@@ -178,18 +186,22 @@ namespace Airline
                 while (isCheck)
                 {
                     Console.Write($"{"Enter terminal number",-30}");
-                    isParse = byte.TryParse(Console.ReadLine(), out terminalNumberInput);
-                    if (!isParse) //NADO TESTIT HEROVAIA LOGIKA
+                    isParse = byte.TryParse(Console.ReadLine(), out terminalNumberInput); 
+                    if (!isParse) 
                     {
-                        Console.WriteLine("Incorrect input. Try again. Only numbers are avaible.");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Incorrect input. Try again. Only numbers (1 - 255) are avaible.");
+                        Console.ResetColor();
                         continue;
                     }
                     else if (isParse && terminalNumberInput <= 0)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input, please enter terminal number more than 0");
+                        Console.ResetColor();
                         continue;
                     }
-                    else if (isParse && terminalNumberInput >= 255)
+                    else if (isParse && terminalNumberInput > 255)
                     {
                         Console.WriteLine("Incorrect input, please input terminal number < 255");
                         continue;
@@ -217,9 +229,11 @@ namespace Airline
                         Console.WriteLine("Invalid input, try again");
                         continue;
                     }
-                    else if (isParse && (byte)flightStatusInput > 9)
+                    else if (isParse && (byte)flightStatusInput > 8)
                     {
-                        Console.WriteLine("Note: available indexes to enter are from 1 to 9. Try again.");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Note: available indexes to enter are from 0 to 8. Try again.");
+                        Console.ResetColor();
                         continue;
                     }
                     break;
@@ -228,11 +242,13 @@ namespace Airline
                 //DateTime input
                 while (isCheck)
                 {
-                    Console.Write($"{"Enter the date please (e.g. 27.08.1990",-30}");
+                    Console.WriteLine($"{"Enter the date please (e.g. 27.08.1990) and time (format: 00:00:00)",-30}");
                     isParse = DateTime.TryParse(Console.ReadLine(), out dt);
                     if (!isParse)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid input, try again");
+                        Console.ResetColor();
                         continue;
                     }
                     break;
@@ -253,17 +269,21 @@ namespace Airline
                             TerminalNumber = terminalNumberInput,
                             StatusFlight = flightStatusInput,
                         };
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("Congratilations! Your element has been added");
+                        Console.ResetColor();
                         break;
                     }
                 }
             }
-
+            Console.WriteLine("Updating...");
+            Printer.PrintAllFlights(flights);
         }
-
+        
         public static void EditFlight(IFlight[] flights)
         {
             Console.Clear();
+            Printer.PrintAllFlights(flights);
             int i;
 
             bool isParse = false;
@@ -281,7 +301,7 @@ namespace Airline
             }
             else
             {
-                Console.WriteLine("Enter flight index to editing (column 'ID' in table.");
+                Console.WriteLine("Enter flight index to editing (column 'ID' in table.)"); //TEST HERNIA PROVERKA
                 isParse = int.TryParse(Console.ReadLine(), out i);
                 if (!isParse | i > 3) // change validation data
                 {
@@ -298,20 +318,24 @@ namespace Airline
                     Console.WriteLine("| {0, -3}{1}", i.ToString(), flights[i].ToString());
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine();
-                    Console.WriteLine("If you do not enter anything, nothing would change.");
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.WriteLine("If you do not choose anything, nothing would change. Press Enter to skip or move forward.");
+                    Console.ResetColor();
                     bool isCheck = true;
 
                     //Edit Flight type
                     while (isCheck)
                     {
-                        Console.Write($"{"Enter flight type. Notice:  1 - Arrival, 2 - Departure",-30}");
+                        Console.WriteLine($"{"Enter flight type. Notice:  1 - Arrival, 2 - Departure",-30}");
                         readLine = Console.ReadLine();
                         if (!string.Empty.Equals(readLine))
                         {
                             isParse = FlightType.TryParse(readLine, true, out typeFlight);
                             if (!isParse || (int)typeFlight >= 3)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Invalid input. Try again. Notice:  1 - Arrival, 2 - Departure");
+                                Console.ResetColor();
                                 continue;
                             }
                         }
@@ -332,17 +356,23 @@ namespace Airline
                             isParse = int.TryParse(readLine, out flightNumberInput);
                             if (!isParse)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Invalid input, try again");
+                                Console.ResetColor();
                                 continue;
                             }
                             else if (isParse && flightNumberInput <= 0)
                             {
-                                Console.WriteLine("Incorrect input, please input flight number > 0");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Incorrect input, please input flight number more than 0");
+                                Console.ResetColor();
                                 continue;
                             }
                             else if (Searcher.SearchByFlightNumber(flights, flightNumberInput) != null)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("This flight number already exists. Please input other flight number.");
+                                Console.ResetColor();
                                 continue;
                             }
                         }
@@ -363,13 +393,15 @@ namespace Airline
                             portCityTitleInput = flights[i].PortCityTitle;
                             break;
                         }
-                        else if (Regex.IsMatch(portCityTitleInput, @"[a-zA-Z]"))
+                        else if (Regex.IsMatch(portCityTitleInput, @"[^\d]+$"))
                         {
                             break;
                         }
-                        else// if (Regex.IsMatch(portCityTitleInput, @"[^\w]"))
+                        else
                         {
-                            Console.WriteLine("Incorrect input. Input the letters or numbers.");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Incorrect input. Only letters are avaible.");
+                            Console.ResetColor();
                             continue;
                         }
                     }
@@ -377,24 +409,30 @@ namespace Airline
                     //Edit terminal number
                     while (isCheck)
                     {
-                        Console.Write($"{"Input terminal number",-30}"); // > 0 and < 255
+                        Console.Write($"{"Input terminal number",-30}");
                         readLine = Console.ReadLine();
                         if (!string.Empty.Equals(readLine))
                         {
                             isParse = byte.TryParse(readLine, out terminalNumberInput);
                             if (!isParse)
                             {
-                                Console.WriteLine("Invalid input, try again");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Invalid input, try again. Available range from 1 to 254");
+                                Console.ResetColor();
                                 continue;
                             }
                             else if (isParse && terminalNumberInput <= 0)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Incorrect input, please input terminal number > 0");
+                                Console.ResetColor();
                                 continue;
                             }
                             else if (isParse && terminalNumberInput >= 255)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Incorrect input, please input terminal number < 255");
+                                Console.ResetColor();
                                 continue;
                             }
                         }
@@ -405,39 +443,62 @@ namespace Airline
                         break;
                     }
 
-                    
+
                     // Edit flight status
                     while (isCheck)
                     {
-                        Console.Write($"{"Input flight status",-30}");
+                        Console.Write($"{"Input flight status:",-30}");
+                        Console.WriteLine(@"
+                CheckIn - 0,
+                GateClosed - 1,
+                Arrived - 2,
+                DepartedAt - 3,
+                Unknown - 4,
+                Canceled - 5,
+                ExpectedAt - 6,
+                Delayed - 7,
+                InFlight - 8");
                         readLine = Console.ReadLine();
+                        if (Console.ReadKey().Key == ConsoleKey.Enter)
+                            break;
                         if (!string.Empty.Equals(readLine))
                         {
                             isParse = FlightStatus.TryParse(readLine, true, out flightStatusInput);
                             if (!isParse)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Invalid input, try again");
+                                Console.ResetColor();
                                 continue;
                             }
+                            else if (isParse && (byte)flightStatusInput > 8)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Note: available indexes to enter are from 0 to 8. Try again.");
+                                Console.ResetColor();
+                                continue;
+                            }
+                            else
+                            {
+                                flightStatusInput = flights[i].StatusFlight;
+                            }
+                            break;
                         }
-                        else
-                        {
-                            flightStatusInput = flights[i].StatusFlight;
-                        }
-                        break;
                     }
                     
                     //Edit date
                     while (isCheck)
                     {
-                        Console.Write($"{"Input date and time",-30}");
+                        Console.Write($"{"Enter the date please (e.g. 27.08.1990) and time (format: 00:00:00)",-30}");
                         readLine = Console.ReadLine();
                         isParse = DateTime.TryParse(readLine, out dt);
                         if (!string.Empty.Equals(readLine))
                         {
                             if (!isParse)
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Invalid input, try again");
+                                Console.ResetColor();
                                 continue;
                             }
                         }
@@ -455,7 +516,10 @@ namespace Airline
                     flights[i].PortCityTitle = portCityTitleInput;
                     flights[i].TerminalNumber = terminalNumberInput;
                     flights[i].StatusFlight = flightStatusInput;
+                    Console.WriteLine("Updating...");
                     Console.WriteLine("Your item has been modified\\saved");
+                    Printer.PrintAllFlights(flights);
+                    
                 }
             }
         }
@@ -464,20 +528,26 @@ namespace Airline
         {
             if (flights[0] == null)
             {
-                Console.WriteLine("Nope flights! Adding new flights.");
+                Console.WriteLine("Nope flights! Add new flights!");
             }
             else
             {
-                Console.WriteLine("Input index, to deleting flight element (in table column Index)");
+                Console.WriteLine("Input index, to deleting flight element (in table column ID)");
                 int i = 0;
                 bool TryByteI = int.TryParse(Console.ReadLine(), out i);
                 if (!TryByteI)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid input, try again");
+                    Console.ResetColor();
+                    DeleteFlight(flights);
                 }
                 else if (i < 0 && i > flights.Length - 1)
                 {
-                    Console.WriteLine("Incorrect input. Please input index 0 to { 0}", flights.Length - 1);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Incorrect input. Please enter index from 0 to {0}", flights.Length - 1);
+                    Console.ResetColor();
+                    DeleteFlight(flights);
                 }
                 else
                 {
@@ -485,18 +555,26 @@ namespace Airline
                     {
                         if (flights[i] == null)
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Flight element does not exist, try again");
+                            Console.ResetColor();
+                            DeleteFlight(flights);
                         }
                         else
                         {
                             flights[i] = null;
-                            Console.WriteLine("Flight element deleting");
+                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                            Console.WriteLine("Flight element deleting..");
+                            Console.ResetColor();
                             RebuildFlight(ref flights);
+                            Printer.PrintAllFlights(flights);
                         }
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input, try again");
+                        Console.ResetColor();
                     }
                 }
             }

@@ -11,6 +11,7 @@ namespace Airline
         internal static void GetFlightMenu(IFlight[] flights)
         {
             Console.Clear();
+            Printer.PrintAllFlights(flights);
             Console.WriteLine("Flight menu.");
             Console.WriteLine("1. Create new flight");
             Console.WriteLine("2. Edit existed flight");
@@ -43,7 +44,7 @@ namespace Airline
 
         internal static void GetPassengerMenu(IFlight flight)
         {
-            Console.WriteLine("Passenger menu");
+            Console.WriteLine("Passenger menu.");
             Console.WriteLine("1. Add new passenger");
             Console.WriteLine("2. Edit existed passenger");
             Console.WriteLine("3. Delete passenger");
@@ -76,7 +77,10 @@ namespace Airline
 
         internal static void OperatePassengerMenu(IFlight[] flights)
         {
+
             Console.Clear();
+            Printer.PrintAllFlights(flights);
+            Console.WriteLine("To go back press Enter.");
             Console.WriteLine("Available flights:");
             for (int i = 0; i < flights.Length; i++)
             {
@@ -87,12 +91,15 @@ namespace Airline
 
             Console.WriteLine();
 
-            Console.WriteLine("Enter the flight number to edit passenger`s information.");
+
+            Console.WriteLine("Enter the flight number to edit passenger`s information:");//podumat o vihode
             int flightNumber = 0;
             bool tryByte = int.TryParse(Console.ReadLine(), out flightNumber);
             if (!tryByte)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Incorrect input");
+                Console.ResetColor();
             }
             else
             {
@@ -103,14 +110,18 @@ namespace Airline
                     {
                         if (flight == flights[i])
                         {
+
                             GetPassengerMenu(flights[i]);
                         }
                     }
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Entered flight does not exist!");
+                    Console.ResetColor();
                 }
+
             }
         }
 
@@ -121,7 +132,10 @@ namespace Airline
             {
                 if (flights[i] != null)
                 {
+                    Console.WriteLine();
+                    Console.BackgroundColor = ConsoleColor.DarkMagenta;
                     Console.WriteLine($"Flight number = {flights[i].FlightNumber}");
+                    Console.ResetColor();
                     Printer.PrintFlightPassengers(flights[i].Passengers);
                 }
                 else
@@ -165,3 +179,4 @@ namespace Airline
         }
     }
 }
+

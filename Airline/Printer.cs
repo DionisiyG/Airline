@@ -12,11 +12,11 @@ namespace Airline
         {
             if (mode == 0)
             {
-                Console.WriteLine("Flights information");
+                Console.WriteLine("Flights information:");
             }
             else if (mode == 1)
             {
-                Console.WriteLine("Passenger information");
+                Console.WriteLine("Passenger information:");
             }
             string[] headTable = new string[]
             {
@@ -69,6 +69,7 @@ namespace Airline
             }
             PrintFooter(0);
         }
+
         public static void PrintFlightPassengers(Passenger[] passengers)
         {
             PrintTableHeader(1);

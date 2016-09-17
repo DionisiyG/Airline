@@ -38,9 +38,11 @@ namespace Airline
             {
                 Console.WriteLine("For searching enter first or last name");
                 readName = Console.ReadLine();
-                if (Regex.IsMatch(readName, @"[^\w]"))
+                if (Regex.IsMatch(readName, @"[\d]"))
                 {
-                    Console.WriteLine("Incorrect input. Letters are onle available");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Incorrect input. Letters are only available");
+                    Console.ResetColor();
                     continue;
                 }
                 isCheck = false;
@@ -88,12 +90,13 @@ namespace Airline
             int flightNumberInput = 0;
             bool check = true;
             Console.WriteLine("Available flights:");
-            for (int i = 0; i < flights.Length; i++)
-            {
-                if (flights[i] == null)
-                    break;
-                Console.WriteLine($"{flights[i].FlightNumber.ToString()}");
-            }
+            Printer.PrintAllFlights(flights);
+            //for (int i = 0; i < flights.Length; i++)
+            //{
+            //    if (flights[i] == null)
+            //        break;
+            //    Console.WriteLine($"{flights[i].FlightNumber.ToString()}");
+            //}
             Console.WriteLine();
             while (check)
             {
@@ -101,18 +104,24 @@ namespace Airline
                 bool isParse = int.TryParse(Console.ReadLine(), out flightNumberInput);
                 if (!isParse)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect input. Try again");
+                    Console.ResetColor();
                     continue;
                 }
                 else if (isParse && flightNumberInput <= 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect input. Please input flight number which is more then  0");
+                    Console.ResetColor();
                     continue;
                 }
                 flight = Searcher.SearchByFlightNumber(flights, flightNumberInput);
                 if (flight == null)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("This flight doesn`t exists.");
+                    Console.ResetColor();
                 }
                 else
                 {
@@ -137,7 +146,9 @@ namespace Airline
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect input. Only letters or numbers are available.");
+                    Console.ResetColor();
                     continue;
                 }
             }
@@ -181,20 +192,25 @@ namespace Airline
             IFlight[] flight = new Flight[flights.Length];
             decimal inputPrice = 0m;
             bool check = true;
-
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Don`t pay more! Searching for ticket in econom class which price is lower than your offer.");
+            Console.ResetColor();
             while (check)
             {
-                Console.WriteLine("Input ticket priceEnter the desirable ticket price (we will found the best proposals!)");
+                Console.WriteLine("Enter the desirable ticket price (we will found the best proposals!)");
                 bool isParse = decimal.TryParse(Console.ReadLine(), out inputPrice);
                 if (!isParse)
                 {
-                    Console.WriteLine("Incorrec input. Try again");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Incorrect input. Try again");
+                    Console.ResetColor();
                     continue;
                 }
                 else if (isParse && inputPrice < 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect input. Please enter the ticket price which is more than 0");
+                    Console.ResetColor();
                     continue;
                 }
 

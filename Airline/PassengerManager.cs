@@ -82,7 +82,7 @@ namespace Airline
                     dayRnd = rndValue(1, 30);
                 }
             }
-            birthday = new DateTime(yearRnd, monthRnd, dayRnd);
+            passenger.Birthday = new DateTime(yearRnd, monthRnd, dayRnd);
           
             return passenger;
         }
@@ -112,7 +112,7 @@ namespace Airline
         public static void AddPassenger(IFlight flight)
         {
             Console.Clear();
-
+            
             string firstName = "";
             string lastName = "";
             string nationality = "";
@@ -134,15 +134,17 @@ namespace Airline
                 //First name
                 while (isCheck)
                 {
-                    Console.Write($"{"Enter first name. !Only letters (A-z) are avaible!",-40}");
+                    Console.WriteLine($"{"Enter first name. Only letters (A-z) are avaible!",-40}");
                     firstName = Console.ReadLine();
-                    if (Regex.IsMatch(firstName, @"[a-zA-Z]"))
+                    if (Regex.IsMatch(firstName, @"[^\d]+$"))
                     {
                         break;
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input. Only letters (A-z) are avaible.");
+                        Console.ResetColor();
                         continue;
                     }
                 }
@@ -150,15 +152,17 @@ namespace Airline
                 //Last name
                 while (isCheck)
                 {
-                    Console.Write($"{"Enter last name. !Only letters (A-z) are avaible!",-40}");
+                    Console.WriteLine($"{"Enter last name. Only letters (A-z) are avaible!",-40}");
                     lastName = Console.ReadLine();
-                    if (Regex.IsMatch(lastName, @"[a-zA-Z]"))
+                    if (Regex.IsMatch(lastName, @"[^\d]+$"))
                     {
                         break;
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input. Only letters (A-z) are avaible.");
+                        Console.ResetColor();
                         continue;
                     }
                 }
@@ -166,15 +170,17 @@ namespace Airline
                 //Nationality
                 while (isCheck)
                 {
-                    Console.Write($"{"Enter passenger`s nationality. !Only letters (A-z) are avaible!",-40}");
+                    Console.WriteLine($"{"Enter passenger`s nationality. Only letters (A-z) are avaible!",-40}");
                     nationality = Console.ReadLine();
-                    if (Regex.IsMatch(nationality, @"[a-zA-Z]"))
+                    if (Regex.IsMatch(nationality, @"[^\d]+$"))
                     {
                         break;
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input. Only letters (A-z) are avaible.");
+                        Console.ResetColor();
                         continue;
                     }
                 }
@@ -182,7 +188,7 @@ namespace Airline
                 //Passport
                 while (isCheck)
                 {
-                    Console.Write($"{"Enter passenger`s passport data. !Only letters (A-z) and numbers (0-9) are avaible!",-40}");
+                    Console.WriteLine($"{"Enter passenger`s passport data. Only letters (A-z) and numbers (0-9) are avaible!",-40}");
                     passport = Console.ReadLine();
                     if (Regex.IsMatch(passport, @"[a-zA-Z0-9]"))
                     {
@@ -190,7 +196,9 @@ namespace Airline
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input. Only letters (A-z) and numbers (0-9) are avaible.");
+                        Console.ResetColor();
                         continue;
                     }
                 }
@@ -202,7 +210,9 @@ namespace Airline
                     isParse = DateTime.TryParse(Console.ReadLine(), out birthday);
                     if (!isParse)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input. Try again. (e.g. 27.08.1990)");
+                        Console.ResetColor();
                         continue;
                     }
                     break;
@@ -215,7 +225,9 @@ namespace Airline
                     isParse = Gender.TryParse(Console.ReadLine(), true, out passengerGender);
                     if (!isParse)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input. Try again. ");
+                        Console.ResetColor();
                         continue;
                     }
                     break;
@@ -224,14 +236,18 @@ namespace Airline
                 //Ticket
                 while (isCheck)
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Good news! Ticket price now is sustainable!");
+                    Console.ResetColor();
                     Console.WriteLine($"Business ticket costs: {flight.BusinessTicketPrice}");
                     Console.WriteLine($"Econom ticket costs: {flight.EconomTicketPrice}");
                     Console.Write($"{"What type of ticket do you prefer? (enter: Business or Econom)",-40}");
                     isParse = TicketType.TryParse(Console.ReadLine(), true, out flightTicket.ClassType);
                     if (!isParse)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Incorrect input. Try again. Note that for business type ticket enter Business, for econom - Econom");
+                        Console.ResetColor();
                         continue;
                     }
                     break;
@@ -261,20 +277,20 @@ namespace Airline
                             PassengerGender = passengerGender,
                             FlightTicket = flightTicket,
                         };
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("Congratulations! Passenger has been added!");
+                        Console.ResetColor();
                         break;
                     }
                 }
                 
             }
         }
-
+       
         public static void EditPassenger(IFlight flight)
         {
             int i;
-            Console.Clear();
-            //надо чтобы выводило всех пассажиров
-
+           
             string firstName = "";
             string lastName = "";
             string nationality = "";
@@ -287,7 +303,7 @@ namespace Airline
             bool isCheck = true;
 
             string readLine = "";
-
+            
             if (flight.Passengers[0] == null)
             {
                 Console.WriteLine("There is no passengers! Adding new passenger...");
@@ -323,13 +339,15 @@ namespace Airline
                             firstName = flight.Passengers[i].FirstName;
                             break;
                         }
-                        else if (Regex.IsMatch(firstName, @"[^\w]"))
+                        else if (Regex.IsMatch(firstName, @"[^\d]+$"))
                         {
                             break;
                         }
                         else
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Incorrect input. Letters are only availble.");
+                            Console.ResetColor();
                             continue;
                         }
                     }
@@ -344,13 +362,15 @@ namespace Airline
                             lastName = flight.Passengers[i].LastName;
                             break;
                         }
-                        else if (Regex.IsMatch(lastName, @"[a-zA-Z]"))
+                        else if (Regex.IsMatch(lastName, @"[^\d]+$"))
                         {
                             break;
                         }
                         else
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Incorrect input. Letters are only availble.");
+                            Console.ResetColor();
                             continue;
                         }
                     }
@@ -365,13 +385,15 @@ namespace Airline
                             nationality = flight.Passengers[i].Nationality;
                             break;
                         }
-                        else if (Regex.IsMatch(nationality, @"[a-zA-Z]"))
+                        else if (Regex.IsMatch(nationality, @"[^\d]+$"))
                         {
                             break;
                         }
                         else
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Incorrect input. Letters are only availble.");
+                            Console.ResetColor();
                             continue;
                         }
                     }
@@ -392,23 +414,26 @@ namespace Airline
                         }
                         else
                         {
-                            Console.WriteLine("Incorrect input. Input the letters or numbers.");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Incorrect input. Letters or numbers only availble.");
+                            Console.ResetColor();
                             continue;
                         }
                     }
 
-
                     //Birthday (Edit|Save)
                     while (isCheck)
                     {
-                        Console.Write($"{"Enter passenger`s day of birth",-40}");
+                        Console.Write($"{"Enter passenger`s day of birth (e.g. 20.08.1990)",-40}");
                         readLine = Console.ReadLine();
                         isParse = DateTime.TryParse(readLine, out birthday);
                         if (!string.Empty.Equals(readLine))
                         {
                             if (!isParse)
                             {
-                                Console.WriteLine("Incorrect put. Try again");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Incorrect input. Try again. Note: e.g. 20.08.1990");
+                                Console.ResetColor();
                                 continue;
                             }
                         }
@@ -427,9 +452,11 @@ namespace Airline
                         if (!string.Empty.Equals(readLine))
                         {
                             isParse = Gender.TryParse(readLine, true, out passengerGender);
-                            if (!isParse)
+                            if (!isParse || Regex.IsMatch(readLine, @"[\d]"))
                             {
-                                Console.WriteLine("Incorrect input. Try again");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Incorrect input. Try again.");
+                                Console.ResetColor();
                                 continue;
                             }
                         }
@@ -443,7 +470,9 @@ namespace Airline
                     //Ticket (Edit|Save)
                     while (isCheck)
                     {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("Good news! Ticket price now is sustainable!");
+                        Console.ResetColor();
                         Console.WriteLine($"Business ticket costs: {flight.BusinessTicketPrice}");
                         Console.WriteLine($"Econom ticket costs: {flight.EconomTicketPrice}");
                         Console.Write($"{"What type of ticket do you prefer? (enter: Business or Econom)",-40}");
@@ -451,9 +480,11 @@ namespace Airline
                         if (!string.Empty.Equals(readLine))
                         {
                             isParse = TicketType.TryParse(readLine, true, out ticket.ClassType);
-                            if (!isParse)
+                            if (!isParse || Regex.IsMatch(readLine, @"[\d]"))
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Incorrect input. Try again");
+                                Console.ResetColor();
                                 continue;
                             }
                         }
@@ -488,20 +519,25 @@ namespace Airline
 
         public static void DeletePassenger(Passenger[] passengers)
         {
+            Printer.PrintFlightPassengers(passengers);
             if (passengers[0] == null)
             {
                 Console.WriteLine("No passengers - noone to delete.");
             }
-            Console.WriteLine("Input ID, to remove passenger element (column ID in table )");
+            Console.WriteLine("Enter ID, to remove passenger element (column ID in table )");
             int i = 0;
             bool tryI = int.TryParse(Console.ReadLine(), out i);
             if (!tryI)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Incorrect input. Try again");
+                Console.ResetColor();
             }
             else if (i < 0 && i > passengers.Length - 1)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Incorrect input. Please input index 0 to {0}", passengers.Length - 1);
+                Console.ResetColor();
             }
             else
             {
@@ -509,18 +545,24 @@ namespace Airline
                 {
                     if (passengers[i] == null)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("There is no passenger with enered ID. Try again");
+                        Console.ResetColor();
                     }
                     else
                     {
                         passengers[i] = null;
+                        Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.WriteLine("Element deleting...");
+                        Console.ResetColor();
                         RebuildPassengersArray(ref passengers);
                     }
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect input. Try again");
+                    Console.ResetColor();
                 }
             }
         }
