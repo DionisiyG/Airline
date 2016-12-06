@@ -8,6 +8,7 @@ namespace Airline
 {
     class Flight : IFlight
     {
+
         public FlightType TypeFlight { get; set; }
         public int FlightNumber { get; set; }
         public DateTime FlightDT { get; set; }
